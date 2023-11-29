@@ -9,8 +9,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from challange_api.utils.shortcuts import uuid_url64
 
 
-# engine = create_engine("sqlite:///database.db")
-engine = create_engine("sqlite://", poolclass=StaticPool, connect_args={"check_same_thread": False})
+engine = create_engine("sqlite:///database.db")
+# engine = create_engine("sqlite://", poolclass=StaticPool, connect_args={"check_same_thread": False})
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db_session():

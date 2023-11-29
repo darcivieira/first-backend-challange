@@ -22,6 +22,13 @@ class TransactionCreate(TransactionModel):
     register_number: str
 
 
+class TransactionCreateInDB(TransactionModel):
+    receiver_id: str
+    sender_id: Optional[str] = None
+    status: Optional[TransactionStatus] = TransactionStatus.pending
+    type: Optional[TransactionType] = TransactionType.wire_transfer
+
+
 class TransactionUpdate(TransactionModel):
     receiver_id: str
     sender_id: Optional[str] = None

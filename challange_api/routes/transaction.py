@@ -15,4 +15,4 @@ router = APIRouter(
 
 @router.post("", status_code=201, response_model=TransactionResponse)
 def create(body: TransactionCreate, user: UserResponse = Depends(get_current_active_user)):
-    return TransactionViewSet.create(body)
+    return TransactionViewSet.create(body, user=user)
