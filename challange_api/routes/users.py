@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends
+
 from challange_api.controllers.users import UsersViewSet
+from challange_api.generics.models import Manager
 from challange_api.helpers.auth import get_current_active_user
 from challange_api.serializers.users import UserResponse, UserCreate, UserUpdate
 
@@ -13,7 +15,7 @@ router = APIRouter(
 
 
 @router.get("", response_model=list[UserResponse])
-def list(user: UserResponse = Depends(get_current_active_user)):
+def list(user_manager: tuple[UserResponse, Manager] = Depends(get_current_active_user)):
     return UsersViewSet.list()
 
 
@@ -23,15 +25,15 @@ def create(body: UserCreate):
 
 
 @router.get("/{user_id}", response_model=UserResponse)
-def retrieve(user_id: str, user: UserResponse = Depends(get_current_active_user)):
+def retrieve(user_id: str, user_manager: tuple[UserResponse, Manager] = Depends(get_current_active_user)):
     return UsersViewSet.retrieve(user_id)
 
 
 @router.patch("/{user_id}", response_model=UserResponse)
-def patch(user_id: str, body: UserUpdate, user: UserResponse = Depends(get_current_active_user)):
+def patch(user_id: str, body: UserUpdate, user_manager: tuple[UserResponse, Manager] = Depends(get_current_active_user)):
     return UsersViewSet.update(user_id, body)
 
 
 @router.delete("/{user_id}", status_code=204, response_model=None)
-def delete(user_id: str, user: UserResponse = Depends(get_current_active_user)):
+def delete(user_id: str, user_manager: tuple[UserResponse, Manager] = Depends(get_current_active_user)):
     UsersViewSet.delete(user_id)

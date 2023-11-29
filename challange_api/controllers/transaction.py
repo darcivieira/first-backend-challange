@@ -1,8 +1,12 @@
 from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
 
+from challange_api.generics.models import Manager
 from challange_api.generics.viewsets import GenericViewSet
-from challange_api.models import Transaction, Users
+from challange_api.models import Transaction, Users, Wallet
 from challange_api.serializers.transaction import TransactionResponse, TransactionCreate, TransactionCreateInDB
+from challange_api.serializers.users import UserResponse
+from challange_api.serializers.wallet import WalletUpdate
 
 
 class TransactionViewSet(GenericViewSet):
@@ -11,7 +15,7 @@ class TransactionViewSet(GenericViewSet):
 
     @staticmethod
     def get_valid_user(data: dict):
-        sender = data.get('user')
+        sender, _ = data.get('user_session')
         if not sender or sender.type == 'shopkeeper':
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED if sender else status.HTTP_400_BAD_REQUEST,
@@ -19,10 +23,22 @@ class TransactionViewSet(GenericViewSet):
             )
         return sender
 
+    @staticmethod
+    def check_positive_balance_and_make_bank_draft(value: float, user_manager: tuple[UserResponse, Manager]):
+        user, manager = user_manager
+        if user.wallet.value < value:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="You don't have enough balance!"
+            )
+        user.wallet.value = float(user.wallet.value) - value
+        manager.session.add(user)
+        manager.session.commit()
+
     @classmethod
     def create(cls, body: TransactionCreate, **kwargs):
         sender = cls.get_valid_user(kwargs)
+        cls.check_positive_balance_and_make_bank_draft(body.value, kwargs.get('user_session'))
         receiver = Users.objects().get(register_number=body.register_number)
-        data = TransactionCreateInDB(sender=sender.id, receiver=receiver.id)
-        print(data)
+        data = TransactionCreateInDB(**{"sender_id": sender.id, "receiver_id": receiver.id, "value": body.value})
         return cls.query_session.create(data)

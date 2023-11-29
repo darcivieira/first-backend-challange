@@ -25,8 +25,8 @@ class TransactionCreate(TransactionModel):
 class TransactionCreateInDB(TransactionModel):
     receiver_id: str
     sender_id: Optional[str] = None
-    status: Optional[TransactionStatus] = TransactionStatus.pending
-    type: Optional[TransactionType] = TransactionType.wire_transfer
+    status: TransactionStatus = TransactionStatus.pending.value
+    type: TransactionType = TransactionType.wire_transfer.value
 
 
 class TransactionUpdate(TransactionModel):

@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 from fastapi import HTTPException, Depends, status
 from jose import jwt, JWTError
+from sqlalchemy.orm import Session
+
 from challange_api.models.users import Users
 from challange_api.serializers.users import UserResponse
 from challange_api.settings import settings, OAUTH2_SCHEME
@@ -39,7 +41,7 @@ def authenticate_user(username, password):
     )
 
 
-def get_current_user(token: str = Depends(OAUTH2_SCHEME)):
+def get_current_user(token: str = Depends(OAUTH2_SCHEME)) -> tuple[UserResponse, Session]:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -55,14 +57,15 @@ def get_current_user(token: str = Depends(OAUTH2_SCHEME)):
     user = session.get(user_id)
     if user is None:
         raise credentials_exception
-    return user
+    return user, session
 
 
-def get_current_active_user(current_user: UserResponse = Depends(get_current_user)):
+def get_current_active_user(user_session: tuple[UserResponse, Session] = Depends(get_current_user)):
     # if not current_user.is_active:
     #     raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user
+    return user_session
 
 
-def refresh_token(user: UserResponse = Depends(get_current_user)):
+def refresh_token(user_session: tuple[UserResponse, Session] = Depends(get_current_user)):
+    user, _ = user_session
     return generate_token(user)
