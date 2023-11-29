@@ -15,7 +15,7 @@ class TransactionViewSet(GenericViewSet):
 
     @staticmethod
     def get_valid_user(data: dict):
-        sender, _ = data.get('user_session')
+        sender, _ = data.get('user_manager')
         if not sender or sender.type == 'shopkeeper':
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED if sender else status.HTTP_400_BAD_REQUEST,
@@ -38,7 +38,7 @@ class TransactionViewSet(GenericViewSet):
     @classmethod
     def create(cls, body: TransactionCreate, **kwargs):
         sender = cls.get_valid_user(kwargs)
-        cls.check_positive_balance_and_make_bank_draft(body.value, kwargs.get('user_session'))
+        cls.check_positive_balance_and_make_bank_draft(body.value, kwargs.get('user_manager'))
         receiver = Users.objects().get(register_number=body.register_number)
         data = TransactionCreateInDB(**{"sender_id": sender.id, "receiver_id": receiver.id, "value": body.value})
         return cls.query_session.create(data)
