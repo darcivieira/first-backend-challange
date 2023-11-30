@@ -1,0 +1,46 @@
+version: "3.3"
+services:
+  redis:
+    image: redis
+    restart: always
+    container_name: redis
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - "6379:6379"
+
+  backend_challange:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    container_name: backend_challange
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - .:/src
+    environment:
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - ALGORITHM=HS256
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  celery:
+    build:
+        context: .
+        dockerfile: Dockerfile_celery
+    container_name: celery
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src
+    environment:
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - ALGORITHM=HS256
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+      - backend_challange

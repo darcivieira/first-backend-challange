@@ -1,3 +1,4 @@
+from celery import current_app
 from challange_api.generics.viewsets import GenericViewSet
 from challange_api.serializers.users import UserResponse, UserCreate, UserUpdate, UserType
 from challange_api.models.users import Users
@@ -9,6 +10,11 @@ from challange_api.utils.shortcuts import generate_hash
 class UsersViewSet(GenericViewSet):
     query_session = Users.objects()
     response_serializer_class = UserResponse
+
+    @classmethod
+    def list(cls, *args, **kwargs):
+        current_app.send_task("deploy_challange", kwargs={"data": "message"})
+        return super().list(*args, **kwargs)
 
     @classmethod
     def create(cls, body: UserCreate):

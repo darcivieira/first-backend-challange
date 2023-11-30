@@ -9,6 +9,8 @@ sqlalchemy = "*"
 email-validator = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 python-jose = "*"
+gunicorn = "*"
+celery = {extras = ["redis"], version = "*"}
 
 [dev-packages]
 pytest = "*"

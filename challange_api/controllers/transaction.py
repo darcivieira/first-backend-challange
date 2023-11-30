@@ -1,12 +1,10 @@
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
 
 from challange_api.generics.models import Manager
 from challange_api.generics.viewsets import GenericViewSet
-from challange_api.models import Transaction, Users, Wallet
+from challange_api.models import Transaction, Users
 from challange_api.serializers.transaction import TransactionResponse, TransactionCreate, TransactionCreateInDB
 from challange_api.serializers.users import UserResponse
-from challange_api.serializers.wallet import WalletUpdate
 
 
 class TransactionViewSet(GenericViewSet):
