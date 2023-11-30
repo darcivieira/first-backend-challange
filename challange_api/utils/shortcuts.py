@@ -1,5 +1,7 @@
 import base64
+import json
 import re
+import requests
 import uuid
 
 from fastapi import HTTPException
@@ -24,3 +26,12 @@ def get_object_or_404(session, pk):
     if not instance:
         raise HTTPException(status_code=404, detail='Object not found!')
     return instance
+
+
+def make_request(url: str, request_type: str = 'get', payload: dict = None) -> dict | bool:
+    try:
+        response = requests.request(request_type.upper(), url, data=payload)
+    except Exception as err:
+        return False
+    else:
+        return json.loads(response.content)

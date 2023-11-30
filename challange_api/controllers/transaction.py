@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from celery import current_app
 
 from challange_api.generics.models import Manager
 from challange_api.generics.viewsets import GenericViewSet
@@ -33,10 +34,16 @@ class TransactionViewSet(GenericViewSet):
         manager.session.add(user)
         manager.session.commit()
 
+    @staticmethod
+    def get_receiver(register_number: str) -> UserResponse:
+        return Users.objects().get(register_number=register_number)
+
     @classmethod
     def create(cls, body: TransactionCreate, **kwargs):
         sender = cls.get_valid_user(kwargs)
         cls.check_positive_balance_and_make_bank_draft(body.value, kwargs.get('user_manager'))
-        receiver = Users.objects().get(register_number=body.register_number)
-        data = TransactionCreateInDB(**{"sender_id": sender.id, "receiver_id": receiver.id, "value": body.value})
-        return cls.query_session.create(data)
+        receiver = cls.get_receiver(body.register_number)
+        data = TransactionCreateInDB(**{"sender_id": sender.wallet.id, "receiver_id": receiver.wallet.id, "value": body.value})
+        instance = cls.query_session.create(data)
+        current_app.send_task("run_transaction", kwargs={"id": instance.id})
+        return instance

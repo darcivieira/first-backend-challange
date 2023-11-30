@@ -1,0 +1,3 @@
+
+class EmailNotSent(Exception):
+    ...
