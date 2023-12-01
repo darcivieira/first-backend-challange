@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Optional
 
 from fastapi import HTTPException, status
-from pydantic import BaseModel, EmailStr, SecretStr, field_validator, ValidationError
+from pydantic import BaseModel, EmailStr, SecretStr, field_validator, Field
 
 
 class UserType(str, Enum):
@@ -11,7 +11,7 @@ class UserType(str, Enum):
 
 
 class UserModel(BaseModel):
-    name: str
+    name: str = Field(title="The user's complete name")
     register_number: str
     email: EmailStr
     type: UserType = UserType.common

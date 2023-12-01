@@ -3,6 +3,32 @@ from fastapi.middleware.cors import CORSMiddleware
 from challange_api.settings import settings
 from challange_api.utils.celery import create_celery
 
+tags_metadata = [
+    {
+        "name": "Authentication",
+        "description": "Operations with users. The **login** logic is also here.",
+    },
+    {
+        "name": "Users",
+        "description": "Operations with users. The **login** logic is also here.",
+    },
+    {
+        "name": "Wallets",
+        "description": "Manage items. So _fancy_ they have their own docs.",
+        "externalDocs": {
+            "description": "Items external docs",
+            "url": "https://fastapi.tiangolo.com/",
+        },
+    },
+    {
+        "name": "Transactions",
+        "description": "Manage items. So _fancy_ they have their own docs.",
+        "externalDocs": {
+            "description": "Items external docs",
+            "url": "https://fastapi.tiangolo.com/",
+        },
+    },
+]
 
 def create_app() -> FastAPI:
 
@@ -11,9 +37,11 @@ def create_app() -> FastAPI:
         servers=[
             {"url": "http://localhost", "description": "Local environment"},
         ],
-        title='ChallengeApi',
+        title='Challange Backend API',
         version='0.1.0',
-        description='API de desafio'
+        description='This API was developed as part of a protfolio.',
+        openapi_tags=tags_metadata
+        # description=description,
     )
 
     app.celery_app = create_celery()
