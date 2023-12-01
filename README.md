@@ -2,8 +2,6 @@
 
 ## [EN] Overview | [PT] Visão geral
 
----
-
 #### [EN]
 
 That was a challange published by a great brazilian's financial company for your candidates for a backend opportunity.
@@ -20,8 +18,6 @@ Então, espero que vocês possam dar uma olhada em meu nível de experiencia em 
 
 
 ## [EN] The challange | [PT] O Desafio
-
----
 
 #### [EN]
 
@@ -63,5 +59,3 @@ Requisitos:
 * No recebimento de pagamento, o usuário ou lojista precisa receber notificação (envio de email, sms) enviada por um serviço de terceiro e eventualmente este serviço pode estar indisponível/instável. Use este mock para simular o envio (https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6).
 
 * Este serviço deve ser RESTFul.
-
-
