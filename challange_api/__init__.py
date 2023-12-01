@@ -6,29 +6,24 @@ from challange_api.utils.celery import create_celery
 tags_metadata = [
     {
         "name": "Authentication",
-        "description": "Operations with users. The **login** logic is also here.",
+        "description": "You must be authenticated to use some functionalities.",
     },
     {
         "name": "Users",
-        "description": "Operations with users. The **login** logic is also here.",
+        "description": "Only to register an user, you can do it without authentication.",
     },
     {
         "name": "Wallets",
-        "description": "Manage items. So _fancy_ they have their own docs.",
-        "externalDocs": {
-            "description": "Items external docs",
-            "url": "https://fastapi.tiangolo.com/",
-        },
+        "description": "You can see your wallet and do a direct update of the value."
     },
     {
         "name": "Transactions",
-        "description": "Manage items. So _fancy_ they have their own docs.",
-        "externalDocs": {
-            "description": "Items external docs",
-            "url": "https://fastapi.tiangolo.com/",
-        },
+        "description": "You must provide the registration number of the recipient of the transaction."
     },
 ]
+
+description = ""
+
 
 def create_app() -> FastAPI:
 
@@ -39,7 +34,8 @@ def create_app() -> FastAPI:
         ],
         title='Challange Backend API',
         version='0.1.0',
-        description='This API was developed as part of a protfolio.',
+        summary='This API was developed as part of a protfolio.',
+        description=description,
         openapi_tags=tags_metadata
         # description=description,
     )

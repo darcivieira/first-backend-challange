@@ -17,3 +17,21 @@ WALLET_UPDATE_NAME = "Update your own wallet"
 WALLET_UPDATE_DESCRIPTION = "This endpoint will update your own wallet data."
 TRANSACTION_CREATE_NAME = "Create a transaction"
 TRANSACTION_CREATE_DESCRIPTION = "This endpoint allow you to create a new transaction."
+
+# FIELDS
+
+FIELD_IDENTIFICATION = "The object's ID"
+
+USER_FIELD_NAME = "The user's complete name"
+USER_FIELD_REGISTER_NUMBER = "The user's register number"
+USER_FIELD_EMAIL = "The user's e-mail"
+USER_FIELD_TYPE = "The user's type"
+USER_FIELD_PASSWORD = "The user's password"
+
+WALLET_FIELD_VALUE = "The wallet's float value"
+
+TRANSACTION_FIELD_VALUE = "The transaction's float value"
+TRANSACTION_FIELD_RECEIVER_ID = "The transaction's receiver id"
+TRANSACTION_FIELD_SENDER_ID = "The transaction's sender id"
+TRANSACTION_FIELD_STATUS = "The transaction's status"
+TRANSACTION_FIELD_TYPE = "The transaction's type"
