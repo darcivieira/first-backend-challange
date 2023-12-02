@@ -26,6 +26,13 @@ description = ""
 
 
 def create_app() -> FastAPI:
+    """
+    Function factory that will build the FastAPI app
+
+    Returns:
+         A FastAPI instance
+
+    """
 
     app = FastAPI(
         root_path="",
