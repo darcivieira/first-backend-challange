@@ -7,6 +7,8 @@ services:
     command: redis-server --save 60 1 --loglevel warning
     ports:
       - "6379:6379"
+    networks:
+      - brasinov
 
   backend_challange:
     build:
@@ -27,9 +29,10 @@ services:
       - LETSENCRYPT_HOST=ec2-54-165-162-130.compute-1.amazonaws.com
       - VIRTUAL_PORT=80
       - HTTTPS_METHOD=redirect
-
     depends_on:
       - redis
+    networks:
+        - brasinov
 
   celery:
     build:
@@ -49,3 +52,9 @@ services:
     depends_on:
       - redis
       - backend_challange
+    networks:
+      - brasinov
+
+networks:
+  brasinov:
+    external: true
