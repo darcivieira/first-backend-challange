@@ -23,6 +23,11 @@ services:
       - ALGORITHM=HS256
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - VIRTUAL_HOST=ec2-54-165-162-130.compute-1.amazonaws.com
+      - LETSENCRYPT_HOST=ec2-54-165-162-130.compute-1.amazonaws.com
+      - VIRTUAL_PORT=8000
+      - HTTTPS_METHOD=redirect
+
     depends_on:
       - redis
 
