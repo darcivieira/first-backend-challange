@@ -2,7 +2,7 @@ name: Challange CI
 on:
   push:
     branches:
-      - develop
+      - master
 
 jobs:
   build:
