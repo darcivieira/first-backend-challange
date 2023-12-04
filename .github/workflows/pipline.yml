@@ -1,4 +1,4 @@
-name: Brasinov CI
+name: Challange CI
 on:
   push:
     branches:
