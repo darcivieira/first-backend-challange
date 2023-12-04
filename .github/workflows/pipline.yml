@@ -1,0 +1,40 @@
+name: Brasinov CI
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparando a chave para deploy
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PROJECT_SSH_KEY }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" >> key.pem
+          chmod 400 key.pem
+
+      - name: Deploy Challange
+        shell: bash
+        env:
+          SSH_USER: ${{ secrets.PROJECT_SSH_USER }}
+          SSH_HOST: ${{ secrets.PROJECT_SSH_HOST }}
+          SSH_PATH: ${{ secrets.PROJECT_SSH_PATH }}
+        run: ssh
+          -o UserKnownHostsFile=/dev/null
+          -o StrictHostKeyChecking=no
+          -i key.pem -v
+          ${SSH_USER}@${SSH_HOST}
+          "
+          cd ${SSH_PATH} &&
+          git pull &&
+          sudo docker compose restart
+          "
+
+      - name: Removendo key do deploy
+        run: rm -f key.pem
