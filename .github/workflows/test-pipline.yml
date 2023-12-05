@@ -38,10 +38,12 @@ jobs:
       - name: Run tests
         run: pipenv run pytest -vvv -s -x
         env:
-          # The hostname used to communicate with the Redis service container
           REDIS_HOST: localhost
-          # The default Redis port
           REDIS_PORT: 6379
+          SECRET_KEY: ${{ dev.SECRET_KEY}}
+          ALGORITHM: ${{ dev.ALGORITHM}}
+          CELERY_BROKER_URL: ${{ dev.CELERY_BROKER_URL}}
+          CELERY_RESULT_BACKEND: ${{ dev.CELERY_RESULT_BACKEND}}
 #        run: poetry run pytest -s -x --cov=kanbanize_sdk -vv --cov-report=xml
 
 #      - name: Upload coverage reports to Codecov
