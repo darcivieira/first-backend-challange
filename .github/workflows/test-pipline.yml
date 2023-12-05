@@ -6,6 +6,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: dev
     env:
       REDIS_HOST: localhost
       REDIS_PORT: 6379
