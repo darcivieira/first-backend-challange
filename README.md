@@ -1,5 +1,7 @@
 # Backend API Challange
 
+[![codecov](https://codecov.io/gh/darcivieira/first-backend-challange/graph/badge.svg?token=3HR8KN8GNB)](https://codecov.io/gh/darcivieira/first-backend-challange)
+
 ## [EN] Overview | [PT] Visão geral
 
 #### [EN]
