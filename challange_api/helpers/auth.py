@@ -57,6 +57,7 @@ def get_current_user(token: str = Depends(OAUTH2_SCHEME)) -> tuple[UserResponse,
     user = session.get(user_id)
     if user is None:
         raise credentials_exception
+    session.session.refresh(user)
     return user, session
 
 

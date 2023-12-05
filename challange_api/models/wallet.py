@@ -13,7 +13,7 @@ class Wallet(Model):
 
     value: Mapped[float] = mapped_column(DECIMAL)
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
-    user: Mapped["Users"] = relationship(back_populates="wallet")
-    sender: Mapped["Transaction"] = relationship(back_populates="sender", foreign_keys="Transaction.sender_id")
-    receiver: Mapped["Transaction"] = relationship(back_populates="receiver", foreign_keys="Transaction.receiver_id")
+    user: Mapped["Users"] = relationship(back_populates="wallet", lazy='subquery')
+    sender: Mapped["Transaction"] = relationship(back_populates="sender", foreign_keys="Transaction.sender_id", lazy='subquery')
+    receiver: Mapped["Transaction"] = relationship(back_populates="receiver", foreign_keys="Transaction.receiver_id", lazy='subquery')
 

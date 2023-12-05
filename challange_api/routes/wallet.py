@@ -28,7 +28,7 @@ def retrieve(user_manager: tuple[UserResponse, Manager] = Depends(get_current_ac
         An instance of pydantic data structure that represents the wallet default response body.
     """
     user, _ = user_manager
-    return user.wallet
+    return WalletViewSet.retrieve(user.wallet.id)
 
 
 @router.patch("/", response_model=WalletResponse, name=WALLET_UPDATE_NAME, description=WALLET_UPDATE_DESCRIPTION)

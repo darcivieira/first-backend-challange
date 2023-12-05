@@ -13,4 +13,4 @@ class Users(Model):
     password: Mapped[str] = mapped_column(String(255))
     type: Mapped[str] = mapped_column(String(30))
 
-    wallet: Mapped["Wallet"] = relationship(back_populates="user")
+    wallet: Mapped["Wallet"] = relationship(back_populates="user", lazy='subquery')

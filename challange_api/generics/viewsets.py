@@ -20,6 +20,7 @@ class GenericViewSet:
     @classmethod
     def retrieve(cls, pk: str):
         instance = get_object_or_404(cls.query_session, pk)
+        cls.query_session.session.close()
         return instance
 
     @classmethod

@@ -43,7 +43,7 @@ class Manager:
     def get(self, pk: str | None = None, *args, **kwargs):
         if kwargs:
             return self.session.query(self.model).filter_by(**kwargs).first()
-        return self.session.query(self.model).get(pk)
+        return self.session.get(self.model, pk)
 
     def create(self, body: BaseModel):
         try:

@@ -18,5 +18,5 @@ class Transaction(Model):
     status: Mapped[str] = mapped_column(String(30))
     sender_id: Mapped[str] = mapped_column(ForeignKey("wallet.id"), nullable=True)
     receiver_id: Mapped[str] = mapped_column(ForeignKey("wallet.id"), nullable=False)
-    sender: Mapped["Wallet"] = relationship(back_populates="sender", foreign_keys=[sender_id])
-    receiver: Mapped["Wallet"] = relationship(back_populates="receiver", foreign_keys=[receiver_id])
+    sender: Mapped["Wallet"] = relationship(back_populates="sender", foreign_keys=[sender_id], lazy='subquery')
+    receiver: Mapped["Wallet"] = relationship(back_populates="receiver", foreign_keys=[receiver_id], lazy='subquery')
