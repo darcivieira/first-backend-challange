@@ -36,7 +36,7 @@ jobs:
         run: pipenv install --system
 
       - name: Run tests
-        run: pytest -vvv -s -x
+        run: pipenv run pytest -vvv -s -x
         env:
           # The hostname used to communicate with the Redis service container
           REDIS_HOST: localhost
