@@ -6,6 +6,13 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      SECRET_KEY: ${{ vars.SECRET_KEY}}
+      ALGORITHM: ${{ vars.ALGORITHM}}
+      CELERY_BROKER_URL: ${{ vars.CELERY_BROKER_URL}}
+      CELERY_RESULT_BACKEND: ${{ vars.CELERY_RESULT_BACKEND}}
 
     services:
       # Label used to access the service container
@@ -39,18 +46,18 @@ jobs:
 
       - name: list vars
         run: |
-          echo "repository variable : ${{ vars.SECRET_KEY}}"
+          echo "repository variable : $SECRET_KEY"
           echo "organization variable : $ALGORITHM"
           echo "overridden variable : $CELERY_BROKER_URL"
           echo "overridden variable : $CELERY_RESULT_BACKEND"
           echo "variable from shell environment : $env_var"
-        env:
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
-          SECRET_KEY: ${{ vars.SECRET_KEY}}
-          ALGORITHM: ${{ vars.ALGORITHM}}
-          CELERY_BROKER_URL: ${{ vars.CELERY_BROKER_URL}}
-          CELERY_RESULT_BACKEND: ${{ vars.CELERY_RESULT_BACKEND}}
+#        env:
+#          REDIS_HOST: localhost
+#          REDIS_PORT: 6379
+#          SECRET_KEY: ${{ vars.SECRET_KEY}}
+#          ALGORITHM: ${{ vars.ALGORITHM}}
+#          CELERY_BROKER_URL: ${{ vars.CELERY_BROKER_URL}}
+#          CELERY_RESULT_BACKEND: ${{ vars.CELERY_RESULT_BACKEND}}
 #        run: poetry run pytest -s -x --cov=kanbanize_sdk -vv --cov-report=x
 
       - name: Run tests
