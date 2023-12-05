@@ -39,7 +39,7 @@ jobs:
 
       - name: list vars
         run: |
-          echo "repository variable : $SECRET_KEY"
+          echo "repository variable : ${{ vars.SECRET_KEY}}"
           echo "organization variable : $ALGORITHM"
           echo "overridden variable : $CELERY_BROKER_URL"
           echo "overridden variable : $CELERY_RESULT_BACKEND"
