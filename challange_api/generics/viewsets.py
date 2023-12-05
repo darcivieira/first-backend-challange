@@ -5,6 +5,11 @@ from challange_api.utils.shortcuts import get_object_or_404
 
 
 class GenericViewSet:
+    """
+    This is a generic class that will provide the basic interaction between router's controllers,
+    data serialization and database manager. So, you can customize your some methods to act as you
+    need. To use it, you must set the query_session and response_serializer_class attributes.
+    """
     query_session: Manager
     response_serializer_class: BaseModel
 
