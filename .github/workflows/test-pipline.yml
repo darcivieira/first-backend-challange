@@ -46,7 +46,7 @@ jobs:
         run: pipenv install --dev
 
       - name: Run tests
-        run: pipenv run pytest -s -x --cov=first-backend-challange -vv --cov-report=xml
+        run: pipenv run pytest -s -x --cov=challange_api -vv --cov-report=xml
         env:
           REDIS_HOST: localhost
           REDIS_PORT: 6379
