@@ -38,6 +38,7 @@ def create_app() -> FastAPI:
         root_path="",
         servers=[
             {"url": "http://localhost", "description": "Local environment"},
+            {"url": "https://first-challange.djvieirajr.com", "description": "HML environment"},
         ],
         title='Challange Backend API',
         version='0.1.0',
@@ -52,6 +53,7 @@ def create_app() -> FastAPI:
     origins = [
         "http://localhost",
         "http://localhost:8080",
+        "https://first-challange.djvieirajr.com"
     ]
 
     app.add_middleware(
