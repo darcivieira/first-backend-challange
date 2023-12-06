@@ -12,6 +12,8 @@ python-jose = "*"
 gunicorn = "*"
 celery = {extras = ["redis"], version = "*"}
 requests = "*"
+pycrypto = "*"
+redis = "*"
 
 [dev-packages]
 pytest = "*"

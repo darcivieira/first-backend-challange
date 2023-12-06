@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 20
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 30
     ROOT_PATH: str = '/api/v1'
+    REDIS_HOST: str
     CELERY_BROKER_URL: str
     CELERY_RESULT_BACKEND: str
 

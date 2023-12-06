@@ -3,9 +3,12 @@ import json
 import re
 import requests
 import uuid
+import redis
 
+from Crypto.Hash import SHA256
 from fastapi import HTTPException
 from passlib.hash import pbkdf2_sha256
+from challange_api.settings import settings
 
 
 def uuid_url64():
@@ -35,3 +38,17 @@ def make_request(url: str, request_type: str = 'get', payload: dict = None) -> d
         return False
     else:
         return json.loads(response.content)
+
+
+def encrypt_message(message):
+    new_hash = SHA256.new()
+    new_hash.update(message.encode('utf-8'))
+    return base64.b64encode(new_hash.digest()).decode("utf-8")
+
+
+def check_send_idempotency(email, data, value):
+    key = encrypt_message(f"{email}-{data}")
+    r = redis.Redis(host=settings.REDIS_HOST, port=6379)
+    response = r.set(key, value, 30, get=True)
+    return True if response else False
+

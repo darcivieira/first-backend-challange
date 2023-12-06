@@ -6,6 +6,7 @@ from challange_api.helpers.auth import get_current_active_user
 from challange_api.serializers.users import UserResponse
 from challange_api.serializers.wallet import WalletResponse, WalletUpdate
 from challange_api.utils.dictionary import *
+from challange_api.utils.shortcuts import check_send_idempotency
 
 router = APIRouter(
     prefix="/wallets",
@@ -44,4 +45,7 @@ def patch(body: WalletUpdate, user_manager: tuple[UserResponse, Manager] = Depen
         An instance of pydantic data structure that represents the wallet default response body.
     """
     user, _ = user_manager
+    idempotency = check_send_idempotency(user.email, body.model_dump(exclude_unset=True), 'wallet')
+    if idempotency:
+        return user.wallet
     return WalletViewSet.update(user.wallet.id, body)
